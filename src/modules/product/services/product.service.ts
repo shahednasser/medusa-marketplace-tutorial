@@ -40,9 +40,7 @@ export class ProductService extends MedusaProductService {
     ): Promise<EntityEventType<Product, 'Insert'>> {
         const { event } = params;
         const user = this.userService.getLoggedInUser()
-        if (user) {
-            event.entity.store_id = user.store_id;
-        }
+        event.entity.store_id = user.store_id;
         return event;
     }
 
