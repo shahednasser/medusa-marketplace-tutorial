@@ -1,45 +1,45 @@
-// CORS when consuming Medusa from admin
-const ADMIN_CORS = process.env.ADMIN_CORS || "http://localhost:7000,http://localhost:7001";
+import * as dotenv from 'dotenv';
 
-// CORS to avoid issues when consuming Medusa from a client
-const STORE_CORS = process.env.STORE_CORS || "http://localhost:8000";
+let ENV_FILE_NAME = '';
+switch (process.env.NODE_ENV) {
+	case 'prod':
+		ENV_FILE_NAME = '.env';
+		break;
+	case 'test':
+		ENV_FILE_NAME = '.env.test';
+		break;
+	default:
+		ENV_FILE_NAME = '.env';
+		break;
+}
 
-// Database URL (here we use a local database called medusa-development)
-const DATABASE_URL =
-  process.env.DATABASE_URL || "postgres://localhost/marketplace";
+dotenv.config({ path: process.cwd() + '/' + ENV_FILE_NAME });
 
-// Medusa uses Redis, so this needs configuration as well
-const REDIS_URL = process.env.REDIS_URL || "redis://localhost:6379";
+const REDIS_URL = process.env.REDIS_URL || 'redis://localhost:6379';
+const PORT = process.env.PORT || 3000;
+const ADMIN_CORS = process.env.ADMIN_CORS || '';
+const STORE_CORS = process.env.STORE_CORS || '';
 
-// Stripe keys
-const STRIPE_API_KEY = process.env.STRIPE_API_KEY || "";
-const STRIPE_WEBHOOK_SECRET = process.env.STRIPE_WEBHOOK_SECRET || "";
-
-// This is the place to include plugins. See API documentation for a thorough guide on plugins.
 const plugins = [
-  `medusa-fulfillment-manual`,
-  `medusa-payment-manual`,
-  // Uncomment to add Stripe support.
-  // You can create a Stripe account via: https://stripe.com
-  // {
-  //   resolve: `medusa-payment-stripe`,
-  //   options: {
-  //     api_key: STRIPE_API_KEY,
-  //     webhook_secret: STRIPE_WEBHOOK_SECRET,
-  //   },
-  // },
+	`medusa-fulfillment-manual`,
+	`medusa-payment-manual`,
 ];
 
 module.exports = {
-  projectConfig: {
-    // redis_url: REDIS_URL,
-    // For more production-like environment install PostgresQL
-    database_url: DATABASE_URL,
-    database_type: "postgres",
-    // database_database: "./medusa-db.sql",
-    // database_type: "sqlite",
-    store_cors: STORE_CORS,
-    admin_cors: ADMIN_CORS,
-  },
-  plugins,
+	serverConfig: {
+		port: PORT,
+	},
+	projectConfig: {
+		// redis_url: REDIS_URL,
+		// For more production-like environment install PostgresQL
+		jwtSecret: process.env.JWT_SECRET,
+		cookieSecret: process.env.COOKIE_SECRET,
+
+		database_url: `postgres://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:${process.env.DB_PORT}/medusa`,
+		database_type: 'postgres',
+		store_cors: STORE_CORS,
+		admin_cors: ADMIN_CORS,
+		redis_url: REDIS_URL,
+	},
+	plugins,
 };
