@@ -2,14 +2,12 @@ import express = require('express');
 import { Medusa } from 'medusa-extender';
 import { ProductModule } from './modules/product/product.module';
 import { UserModule } from './modules/user/user.module';
-import { AuthModule } from "./modules/auth/auth.module";
 import { StoreModule } from "./modules/store/store.module";
 
 async function bootstrap() {
     const expressInstance = express();
 
     await new Medusa(__dirname + '/../', expressInstance).load([
-        AuthModule,
         UserModule,
         ProductModule,
         StoreModule
