@@ -11,8 +11,8 @@
     "typeorm": "node --require ts-node/register ./node_modules/typeorm/cli.js"
   },
   "dependencies": {
-    "@medusajs/medusa": "^1.1.49",
-    "@medusajs/medusa-cli": "^1.1.22",
+    "@medusajs/medusa": "^1.2.1",
+    "@medusajs/medusa-cli": "^1.2.1",
     "@types/jsonwebtoken": "^8.5.8",
     "medusa-extender": "^1.4.4",
     "medusa-fulfillment-manual": "^1.1.26",

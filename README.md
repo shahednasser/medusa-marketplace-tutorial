@@ -16,24 +16,12 @@ npm i
 
 ## Configuration
 
-If necessary, you can make changes to your `PostgreSQL` and `Redis` connection in by creating `.env` with the following keys:
-
-```
-REDIS_URL=
-DATABASE_URL=
-```
-
-Note that by default these are the values used:
-
-```
-REDIS_URL=redis://localhost:6379
-DATABASE_URL=postgres://localhost/marketplace
-```
+Copy `.env.example` to `.env` and add your database and Redis configurations as necessary.
 
 ### Running the Server
 
 To run the server run the following command:
 
-```
+```bash
 npm start
 ```
