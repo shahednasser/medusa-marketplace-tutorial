@@ -1,20 +1,19 @@
-import { Service } from 'medusa-extender';
 import { EntityManager } from 'typeorm';
 import EventBusService from '@medusajs/medusa/dist/services/event-bus';
 import { FindConfig } from '@medusajs/medusa/dist/types/common';
+import { MedusaError } from 'medusa-core-utils';
 import { UserService as MedusaUserService } from '@medusajs/medusa/dist/services';
+import { Service } from 'medusa-extender';
 import { User } from '../entities/user.entity';
 import UserRepository from '../repositories/user.repository';
-import { MedusaError } from 'medusa-core-utils';
 
 type ConstructorParams = {
-    loggedInUser: User;
     manager: EntityManager;
     userRepository: typeof UserRepository;
     eventBusService: EventBusService;
 };
 
-@Service({ override: MedusaUserService, scope: 'SCOPED' })
+@Service({ override: MedusaUserService })
 export default class UserService extends MedusaUserService {
     private readonly manager: EntityManager;
     private readonly userRepository: typeof UserRepository;
