@@ -8,13 +8,12 @@ import UserRepository from '../repositories/user.repository';
 import { MedusaError } from 'medusa-core-utils';
 
 type ConstructorParams = {
-    loggedInUser: User;
     manager: EntityManager;
     userRepository: typeof UserRepository;
     eventBusService: EventBusService;
 };
 
-@Service({ override: MedusaUserService, scope: 'SCOPED' })
+@Service({ override: MedusaUserService })
 export default class UserService extends MedusaUserService {
     private readonly manager: EntityManager;
     private readonly userRepository: typeof UserRepository;
