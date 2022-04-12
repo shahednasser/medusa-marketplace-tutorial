@@ -33,8 +33,7 @@ module.exports = {
 		// For more production-like environment install PostgresQL
 		jwtSecret: process.env.JWT_SECRET,
 		cookieSecret: process.env.COOKIE_SECRET,
-
-		database_url: `postgres://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_SCHEME}`,
+		database_url: process.env.DATABASE_URL,
 		database_type: 'postgres',
 		store_cors: STORE_CORS,
 		admin_cors: ADMIN_CORS,
