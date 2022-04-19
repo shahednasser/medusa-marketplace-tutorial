@@ -14,7 +14,7 @@
     "@medusajs/medusa": "^1.2.1",
     "@medusajs/medusa-cli": "^1.2.1",
     "@types/jsonwebtoken": "^8.5.8",
-    "medusa-extender": "^1.4.4",
+    "medusa-extender": "^1.6.3",
     "medusa-fulfillment-manual": "^1.1.26",
     "medusa-interfaces": "^1.1.27",
     "medusa-payment-manual": "^1.0.8",
