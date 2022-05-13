@@ -23,6 +23,15 @@ const STORE_CORS = process.env.STORE_CORS || 'http://localhost:8000';
 const plugins = [
 	`medusa-fulfillment-manual`,
 	`medusa-payment-manual`,
+	{
+    resolve: `medusa-file-minio`,
+    options: {
+        endpoint: process.env.MINIO_SERVER,
+        bucket: process.env.MINIO_BUCKET,
+        access_key_id: process.env.MINIO_ACCESS_KEY,
+        secret_access_key: process.env.MINIO_SECRET_KEY,
+    },
+	},
 ];
 
 module.exports = {
