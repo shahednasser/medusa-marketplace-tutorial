@@ -90,7 +90,7 @@ export class OrderSubscriber {
           //create order
           const childOrder = orderRepo.create({
             ...order,
-            parent_id: id,
+            order_parent_id: id,
             store_id: store_id,
             cart_id: null,
             cart: null,
@@ -130,10 +130,10 @@ export class OrderSubscriber {
       //retrieve order
       const order: Order = await this.orderService.retrieve(id);
 
-      if (order.parent_id) {
+      if (order.order_parent_id) {
         //retrieve parent
         const orderRepo = this.manager.getCustomRepository(this.orderRepository);
-        const parentOrder = await this.orderService.retrieve(order.parent_id, {
+        const parentOrder = await this.orderService.retrieve(order.order_parent_id, {
             relations: ['children']
         });
 
