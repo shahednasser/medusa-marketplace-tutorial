@@ -1,11 +1,7 @@
-import { EntityEventType, MedusaEventHandlerParams, OnMedusaEntityEvent, Service } from 'medusa-extender';
-
-import { BaseService } from "medusa-interfaces";
 import { EntityManager } from 'typeorm';
 import { OrderService as MedusaOrderService } from "@medusajs/medusa/dist/services";
-import { Order } from "./order.entity";
 import { OrderRepository } from './order.repository';
-import { OrderStatus } from '@medusajs/medusa';
+import { Service } from 'medusa-extender';
 import { User } from "../user/entities/user.entity";
 
 type InjectedDependencies = {
