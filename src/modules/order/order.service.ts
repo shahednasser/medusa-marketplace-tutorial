@@ -50,9 +50,7 @@ export class OrderService extends MedusaOrderService {
 
         config.select.push('store_id')
         
-        if (!config.relations) {
-            config.relations = [];
-        }
+        config.relations = config.relations ?? []
 
         config.relations.push("children", "parent", "store")
 

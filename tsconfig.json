@@ -21,9 +21,6 @@
         "dist",
         "node_modules",
         "**/*.spec.ts",
-        "dist",
-        "node_modules",
-        "**/*.spec.ts",
         "medusa-config.js",
     ]
 }
