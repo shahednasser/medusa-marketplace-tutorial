@@ -1,8 +1,9 @@
-import express = require('express');
 import { Medusa } from 'medusa-extender';
+import { OrderModule } from './modules/order/order.module';
 import { ProductModule } from './modules/product/product.module';
-import { UserModule } from './modules/user/user.module';
 import { StoreModule } from "./modules/store/store.module";
+import { UserModule } from './modules/user/user.module';
+import express = require('express');
 
 async function bootstrap() {
     const expressInstance = express();
@@ -10,7 +11,8 @@ async function bootstrap() {
     await new Medusa(__dirname + '/../', expressInstance).load([
         UserModule,
         ProductModule,
-        StoreModule
+        OrderModule,
+        StoreModule,
     ]);
 
     expressInstance.listen(9000, () => {
