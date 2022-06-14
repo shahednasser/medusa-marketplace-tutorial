@@ -6,7 +6,7 @@ This includes the full Medusa server. If you want to install the marketplace int
 
 ## Prerequisites
 
-Before you run this code you'll need [PostgreSQL](https://www.postgresql.org/download/) and [Redis](https://redis.io/download) installed.  You must also configure them as mentioned in the [set up development guide](https://docs.medusajs.com/tutorial/set-up-your-development-environment#configuring-your-server).
+Before you run this code you'll need [PostgreSQL](https://www.postgresql.org/download/) and [Redis](https://redis.io/download) installed.
 
 ## Installation
 
@@ -20,7 +20,21 @@ npm i
 
 Copy `.env.example` to `.env` and add your database and Redis configurations as necessary.
 
-### Running the Server
+## Seed and Migrate Database
+
+Run the following command to seed the database:
+
+```bash
+npm run seed
+```
+
+Then run the migrations
+
+```bash
+./node_modules/.bin/medex migrate --run
+```
+
+## Running the Server
 
 To run the server run the following command:
 
