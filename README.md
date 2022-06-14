@@ -20,7 +20,21 @@ npm i
 
 Copy `.env.example` to `.env` and add your database and Redis configurations as necessary.
 
-### Running the Server
+## Seed and Migrate Database
+
+Run the following command to seed the database:
+
+```bash
+npm run seed
+```
+
+Then run the migrations
+
+```bash
+./node_modules/.bin/medex migrate --run
+```
+
+## Running the Server
 
 To run the server run the following command:
 
