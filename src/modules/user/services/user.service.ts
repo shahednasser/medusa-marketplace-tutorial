@@ -11,20 +11,22 @@ type ConstructorParams = {
     manager: EntityManager;
     userRepository: typeof UserRepository;
     eventBusService: EventBusService;
+    loggedInUser: User;
 };
 
-@Service({ override: MedusaUserService })
+@Service({ scope: 'SCOPED', override: MedusaUserService })
 export default class UserService extends MedusaUserService {
     private readonly manager: EntityManager;
     private readonly userRepository: typeof UserRepository;
     private readonly eventBus: EventBusService;
+    private readonly container: ConstructorParams;
 
-    constructor(private readonly container: ConstructorParams) {
+    constructor(container: ConstructorParams) {
         super(container);
         this.manager = container.manager;
         this.userRepository = container.userRepository;
         this.eventBus = container.eventBusService;
-
+        this.container = container;
     }
 
     public async retrieve(userId: string, config?: FindConfig<User>): Promise<User> {
@@ -39,5 +41,24 @@ export default class UserService extends MedusaUserService {
         }
 
         return user as User;
+    }
+
+    buildQuery_(selector, config = {}): object {
+        if (Object.keys(this.container).includes('loggedInUser') && this.container.loggedInUser.store_id) {
+            selector['store_id'] = this.container.loggedInUser.store_id;
+        }
+        
+        return super.buildQuery_(selector, config);
+    }
+
+    public async addUserToStore (user_id, store_id) {
+        const userRepo = this.manager.getCustomRepository(this.userRepository);
+        const query = this.buildQuery_({ id: user_id });
+
+        const user = await userRepo.findOne(query);
+        if (user) {
+            user.store_id = store_id;
+            await userRepo.save(user);
+        }
     }
 }
