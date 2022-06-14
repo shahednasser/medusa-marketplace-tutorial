@@ -5,7 +5,7 @@ import { User } from './entities/user.entity';
 import UserRepository from './repositories/user.repository';
 import { UserRouter } from "./routers/user.router";
 import UserService from './services/user.service';
-import addStoreIdToUser1644946220401 from './migrations/user.migration';
+import addStoreIdToUser1644946220401 from './user.migration';
 
 @Module({
     imports: [
