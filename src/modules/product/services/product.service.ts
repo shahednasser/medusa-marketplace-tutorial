@@ -20,6 +20,8 @@ type ConstructorParams = {
     imageRepository: any;
     searchService: any;
     userService: UserService;
+    cartRepository: any;
+    priceSelectionStrategy: any;
 }
 
 @Service({ scope: 'SCOPED', override: MedusaProductService })
