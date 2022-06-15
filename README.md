@@ -28,6 +28,12 @@ Run the following command to seed the database:
 npm run seed
 ```
 
+Before running migrations, make sure to run the build command:
+
+```bash
+npm run build
+```
+
 Then run the migrations
 
 ```bash
