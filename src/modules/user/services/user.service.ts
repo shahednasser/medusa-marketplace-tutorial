@@ -11,7 +11,7 @@ type ConstructorParams = {
     manager: EntityManager;
     userRepository: typeof UserRepository;
     eventBusService: EventBusService;
-    loggedInUser: User;
+    loggedInUser?: User;
 };
 
 @Service({ scope: 'SCOPED', override: MedusaUserService })
