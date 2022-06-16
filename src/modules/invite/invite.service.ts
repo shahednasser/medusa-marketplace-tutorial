@@ -20,6 +20,8 @@ type InviteServiceProps = {
 
 @Service({ scope: 'SCOPED', override: MedusaInviteService })
 export class InviteService extends MedusaInviteService {
+  static readonly resolutionKey = "inviteService"
+  
   private readonly manager: EntityManager;
   private readonly container: InviteServiceProps;
   private readonly inviteRepository: InviteRepository;
@@ -33,15 +35,14 @@ export class InviteService extends MedusaInviteService {
   }
 
   async retrieve (invite_id: string) : Promise<Invite|null> {
-    return this.atomicPhase_(async (m) => {
+    return await this.atomicPhase_(async (m) => {
       const inviteRepo: InviteRepository = m.getCustomRepository(
         this.inviteRepository
       )
   
-      const invite = await inviteRepo.findOne({ where: { id: invite_id } })
-  
-      return invite;
-    }, "SERIALIZABLE")
+      return await inviteRepo.findOne({ where: { id: invite_id } })
+
+    })
   }
 
   buildQuery_(selector, config = {}): object {

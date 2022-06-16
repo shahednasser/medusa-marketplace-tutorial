@@ -1,6 +1,6 @@
 import { Router } from 'medusa-extender';
 import listProductsHandler from '@medusajs/medusa/dist/api/routes/admin/products/list-products';
-import permissionMiddleware from './../permission/permission.middleware';
+import permissionGuard from '../permission/permission.guard';
 import wrapHandler from '@medusajs/medusa/dist/api/middlewares/await-middleware';
 
 @Router({
@@ -10,9 +10,9 @@ import wrapHandler from '@medusajs/medusa/dist/api/middlewares/await-middleware'
             path: '/admin/products',
             method: 'get',
             handlers: [
-              (req, res, next) => {
-                permissionMiddleware(req, res, next, {test: true})
-              },
+              permissionGuard([
+                {path: "/admin/products"}
+              ]),
               wrapHandler(listProductsHandler)
             ],
         },

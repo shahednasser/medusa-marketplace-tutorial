@@ -1,4 +1,5 @@
 import { AdminPostInvitesInviteAcceptReq } from "@medusajs/medusa"
+import { EntityManager } from "typeorm";
 import { InviteService } from './invite.service';
 import { MedusaError } from 'medusa-core-utils';
 import UserService from '../user/services/user.service';
@@ -7,29 +8,37 @@ import { validator } from "@medusajs/medusa/dist/utils/validator"
 export default async (req, res) => {
   const validated = await validator(AdminPostInvitesInviteAcceptReq, req.body)
 
-  const inviteService: InviteService = req.scope.resolve("inviteService")
+  const inviteService: InviteService = req.scope.resolve(InviteService.resolutionKey)
 
-  //retrieve invite
-  let decoded
-  try {
-    decoded = inviteService.verifyToken(validated.token)
-  } catch (err) {
-    throw new MedusaError(
-      MedusaError.Types.INVALID_DATA,
-      "Token is not valid"
-    )
-  }
+  const manager: EntityManager = req.scope.resolve("manager")
 
-  const invite = await inviteService.retrieve(decoded.invite_id);
+  await manager.transaction(async (m) => {
+    //retrieve invite
+    let decoded
+    try {
+      decoded = inviteService
+      .withTransaction(m)
+      .verifyToken(validated.token)
+    } catch (err) {
+      throw new MedusaError(
+        MedusaError.Types.INVALID_DATA,
+        "Token is not valid"
+      )
+    }
 
-  let store_id = invite ? invite.store_id : null;
+    const invite = await inviteService.retrieve(decoded.invite_id);
 
-  const user = await inviteService.accept(validated.token, validated.user);
-  
-  if (store_id) {
-    const userService: UserService = req.scope.resolve("userService");
-    await userService.addUserToStore(user.id, store_id);
-  }
+    let store_id = invite ? invite.store_id : null;
 
-  res.sendStatus(200)
+    const user = await inviteService
+    .withTransaction(m)
+    .accept(validated.token, validated.user);
+
+    if (store_id) {
+      const userService: UserService = req.scope.resolve("userService");
+      await userService.addUserToStore(user.id, store_id);
+    }
+
+    res.sendStatus(200)
+  })
 }

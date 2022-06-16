@@ -52,13 +52,15 @@ export default class UserService extends MedusaUserService {
     }
 
     public async addUserToStore (user_id, store_id) {
-        const userRepo = this.manager.getCustomRepository(this.userRepository);
-        const query = this.buildQuery_({ id: user_id });
+        await this.atomicPhase_(async (m) => {
+            const userRepo = m.getCustomRepository(this.userRepository);
+            const query = this.buildQuery_({ id: user_id });
 
-        const user = await userRepo.findOne(query);
-        if (user) {
-            user.store_id = store_id;
-            await userRepo.save(user);
-        }
+            const user = await userRepo.findOne(query);
+            if (user) {
+                user.store_id = store_id;
+                await userRepo.save(user);
+            }
+        })
     }
 }
