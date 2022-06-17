@@ -29,6 +29,21 @@ export default class UserService extends MedusaUserService {
         this.container = container;
     }
 
+    withTransaction(transactionManager: EntityManager): UserService {
+        if (!transactionManager) {
+            return this
+        }
+
+        const cloned = new UserService({
+            ...this.container,
+            manager: transactionManager
+        })
+
+        cloned.transactionManager = transactionManager
+
+        return cloned
+    }
+
     public async retrieve(userId: string, config?: FindConfig<User>): Promise<User> {
         const userRepo = this.manager.getCustomRepository(this.userRepository);
         const validatedId = this.validateId_(userId);
