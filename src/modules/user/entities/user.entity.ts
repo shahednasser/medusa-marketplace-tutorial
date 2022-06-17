@@ -16,9 +16,9 @@ export class User extends MedusaUser {
 	@JoinColumn({ name: 'store_id' })
 	store: Store;
 
-	@Index()
-	@Column({ nullable: false })
-	role_id: string;
+  @Index()
+  @Column({ nullable: true })
+  role_id: string;
 
 	@ManyToOne(() => Role, (role) => role.users)
 	@JoinColumn({ name: 'role_id' })

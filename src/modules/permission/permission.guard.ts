@@ -10,7 +10,7 @@ export default (permissions: any[]) => {
     });
   
     const isAllowed = permissions.every(permission => 
-      loggedInUser.teamRole.permissions.some((userPermission) => _.isEqual(userPermission.metadata, permission))
+      loggedInUser.teamRole?.permissions.some((userPermission) => _.isEqual(userPermission.metadata, permission))
     )
 
     if (isAllowed) {      

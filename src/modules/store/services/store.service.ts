@@ -48,7 +48,9 @@ export default class StoreService extends MedusaStoreService {
 		params: MedusaEventHandlerParams<User, 'Insert'>
 	): Promise<EntityEventType<User, 'Insert'>> {
 		const { event } = params;
-		let store_id = this.container.loggedInUser.store_id
+		let store_id = Object.keys(this.container).includes("loggedInUser")
+      ? this.container.loggedInUser.store_id
+      : null;
 		if (!store_id) {
 			const createdStore = await this.withTransaction(event.manager).createForUser(event.entity);
 			if (!!createdStore) {
