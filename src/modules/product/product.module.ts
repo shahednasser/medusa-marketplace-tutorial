@@ -13,7 +13,7 @@ import addStoreIdToProduct1645034402086 from './product.migration';
       ProductService,
       addStoreIdToProduct1645034402086,
       AttachProductSubscribersMiddleware,
-      ProductsRouter
+      // ProductsRouter
     ]
 })
 export class ProductModule {}
