@@ -3,6 +3,7 @@ import { Module } from 'medusa-extender';
 import { Product } from './entities/product.entity';
 import ProductRepository from './repositories/product.repository';
 import { ProductService } from './services/product.service';
+import { ProductsRouter } from './product.router';
 import addStoreIdToProduct1645034402086 from './product.migration';
 
 @Module({
@@ -11,7 +12,8 @@ import addStoreIdToProduct1645034402086 from './product.migration';
       ProductRepository,
       ProductService,
       addStoreIdToProduct1645034402086,
-      AttachProductSubscribersMiddleware
+      AttachProductSubscribersMiddleware,
+      // ProductsRouter
     ]
 })
 export class ProductModule {}
