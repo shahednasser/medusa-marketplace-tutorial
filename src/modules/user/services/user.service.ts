@@ -1,6 +1,7 @@
 import { EntityManager } from 'typeorm';
 import EventBusService from '@medusajs/medusa/dist/services/event-bus';
 import { FindConfig } from '@medusajs/medusa/dist/types/common';
+import { validateId, buildQuery } from "@medusajs/medusa/dist/utils";
 import { MedusaError } from 'medusa-core-utils';
 import { UserService as MedusaUserService } from '@medusajs/medusa/dist/services';
 import { Service } from 'medusa-extender';
@@ -12,6 +13,8 @@ type ConstructorParams = {
     userRepository: typeof UserRepository;
     eventBusService: EventBusService;
     loggedInUser?: User;
+    analyticsConfigService: any;
+    featureFlagRouter: any;
 };
 
 @Service({ scope: 'SCOPED', override: MedusaUserService })
@@ -46,8 +49,8 @@ export default class UserService extends MedusaUserService {
 
     public async retrieve(userId: string, config?: FindConfig<User>): Promise<User> {
         const userRepo = this.manager.getCustomRepository(this.userRepository);
-        const validatedId = this.validateId_(userId);
-        const query = this.buildQuery_({ id: validatedId }, config);
+        const validatedId = validateId(userId);
+        const query = buildQuery({ id: validatedId }, config);
 
         const user = await userRepo.findOne(query);
 
