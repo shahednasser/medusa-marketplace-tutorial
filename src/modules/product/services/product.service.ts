@@ -2,6 +2,7 @@ import { EntityEventType, MedusaEventHandlerParams, OnMedusaEntityEvent, Service
 
 import { EntityManager } from "typeorm";
 import { ProductService as MedusaProductService } from '@medusajs/medusa/dist/services';
+import { FilterableProductProps, FindProductConfig } from '@medusajs/medusa/dist/types/product';
 import { Product } from '../entities/product.entity';
 import { User } from '../../user/entities/user.entity';
 import UserService from '../../user/services/user.service';
@@ -43,7 +44,7 @@ export class ProductService extends MedusaProductService {
         return event;
     }
 
-    prepareListQuery_(selector: object, config: object): object {
+    prepareListQuery_(selector: FilterableProductProps, config: FindProductConfig) {
         const loggedInUser = Object.keys(this.container).includes('loggedInUser') ? this.container.loggedInUser : null
         if (loggedInUser) {
             selector['store_id'] = loggedInUser.store_id
