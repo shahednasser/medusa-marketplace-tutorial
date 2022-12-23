@@ -6,6 +6,7 @@ import EventBusService from '@medusajs/medusa/dist/services/event-bus';
 import { Invite } from '../../invite/invite.entity';
 import { StoreService as MedusaStoreService } from '@medusajs/medusa/dist/services';
 import { Store } from '../entities/store.entity';
+import { FindConfig } from '@medusajs/medusa/dist/types/common';
 import StoreRepository from '../repositories/store.repository';
 import { User } from '../../user/entities/user.entity';
 
@@ -28,21 +29,6 @@ export default class StoreService extends MedusaStoreService {
 		this.storeRepository = container.storeRepository;
 	}
 
-	withTransaction(transactionManager: EntityManager): StoreService {
-		if (!transactionManager) {
-			return this;
-		}
-
-		const cloned = new StoreService({
-			...this.container,
-			manager: transactionManager,
-		});
-
-		cloned.transactionManager_ = transactionManager;
-
-		return cloned;
-	}
-
 	@OnMedusaEntityEvent.Before.Insert(User, { async: true })
 	public async createStoreForNewUser(
 		params: MedusaEventHandlerParams<User, 'Insert'>
@@ -52,7 +38,7 @@ export default class StoreService extends MedusaStoreService {
       ? this.container.loggedInUser.store_id
       : null;
 		if (!store_id) {
-			const createdStore = await this.withTransaction(event.manager).createForUser(event.entity);
+			const createdStore = await this.createForUser(event.entity);
 			if (!!createdStore) {
 				store_id = createdStore.id;
 			}
@@ -95,9 +81,9 @@ export default class StoreService extends MedusaStoreService {
 	 * Return the store that belongs to the authenticated user.
 	 * @param relations
 	 */
-	public async retrieve(relations: string[] = []) {
+	public async retrieve({ relations }: FindConfig<BaseStore>) {
 		if (!Object.keys(this.container).includes('loggedInUser')) {
-			return super.retrieve(relations);
+			return super.retrieve({relations});
 		}
 
 		const storeRepo = this.manager.getCustomRepository(this.storeRepository);
