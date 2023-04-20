@@ -1,6 +1,6 @@
 # Medusa Marketplace Tutorial
 
-> The code for this tutorial at the moment only supports Medusa v1.3.1 and Medusa Extender v1.7.2
+> :warning: this repository is deprecated and it's recommended to check out [this one](https://github.com/shahednasser/medusa-1.8-marketplace-tutorial) instead.
 
 Code for Medusa Marketplace Tutorial using [Medusa Extender](https://github.com/adrien2p/medusa-extender).
 
